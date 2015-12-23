@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#ead2c3"
+    >
+
+    <ImageView
+        android:id="@+id/move_poster"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/circlelogo"/>
+    <TextView
+        android:id="@+id/move_title"
+        android:layout_width="175dp"
+        android:layout_height="75dp"
+        android:layout_toRightOf="@+id/move_poster"
+        android:text="Location Name"
+        android:gravity="center"
+        android:textColor="#008d7f" />
+
+    <TextView
+        android:id="@+id/move_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:layout_alignParentRight="true"
+        android:text="Direction"
+        android:gravity="center"
+        android:textColor="#008d7f"
+        android:layout_toRightOf="@+id/move_title"
+        android:layout_toEndOf="@+id/move_title" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#008d7f"
+        android:layout_below="@+id/move_poster">
+    </View>
+
+</RelativeLayout>

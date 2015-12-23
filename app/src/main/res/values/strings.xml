@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">AudubonTrailMap</string>
+    <string name="title_activity_trail_maps">Schlitz Audubon</string>
+    <string name="title_activity_trail_locations">Trail Locations</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="move_title">
+
+        <item>Main Building</item>
+        <item>Observation Tower</item>
+        <item>Pavilion</item>
+        <item>Mystery Lake</item>
+        <item>Boardwalk Pond</item>
+        <item>"Secret Door" to Solutude Marsh</item>
+        <item>Bird Blind Pond</item>
+        <item>Farm Equipment</item>
+        <item>Wigwam</item>
+        <item>Lake Michigan (North Trail)</item>
+        <item>Lake Michigan (Paved Trail)</item>
+    </string-array>
+    <string-array name="move_rating">
+        <item>Location:  7.4/10</item>
+        <item>Location:  5.4/10</item>
+        <item>Location:  4.4/10</item>
+        <item>Location:  3.4/10</item>
+        <item>Location:  2.4/10</item>
+        <item>Location:  1.4/10</item>
+        <item>Location:  2.4/10</item>
+        <item>Location:  1.4/10</item>
+        <item>Location:  0.4/10</item>
+        <item>Location:  6.4/10</item>
+        <item>Location:  6.4/10</item>
+    </string-array>
+</resources>
