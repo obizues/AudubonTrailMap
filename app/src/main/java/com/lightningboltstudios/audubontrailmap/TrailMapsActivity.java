@@ -1,7 +1,6 @@
 package com.lightningboltstudios.audubontrailmap;
 
 import android.content.pm.ActivityInfo;
-import android.graphics.Camera;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -22,11 +21,11 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
 
     private GoogleMap mMap;
     final float DEFAULT_ZOOM = (float) 15.25;
-    boolean firstMapRegionCheck = true;
-    VisibleRegion lastVisibleRegion;
+    Integer cameraUpdateLock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        cameraUpdateLock = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trail_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -64,8 +63,19 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
                 double bottom = vr.latLngBounds.southwest.latitude;
 
                 zoomFix(position);
-                checkXAxis(position, left, top, right, bottom);
-                checkYAxis(position, left, top, right, bottom);
+                double[] newBoundries = checkXAxis(left, top, right, bottom);
+                newBoundries = checkYAxis(newBoundries[0], newBoundries[1],newBoundries[2],newBoundries[3]);
+
+                left = newBoundries[0];
+                top = newBoundries[1];
+                right = newBoundries[2];
+                bottom = newBoundries[3];
+
+                LatLng southwest = new LatLng(bottom, left);
+                LatLng northeast = new LatLng(top, right);
+                LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
+                CameraUpdate camerageUpdate = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
+                mMap.moveCamera(camerageUpdate);
             }
         });
     }
@@ -81,39 +91,25 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
         }
     }
 
-    public void checkXAxis(CameraPosition position, double left, double top, double right, double bottom){
+    public double[] checkXAxis(double left, double top, double right, double bottom){
         if (left < -87.896567) {
-            LatLng southwest = new LatLng(bottom, -87.896567);
-            LatLng northeast = new LatLng(top, right);
-            LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
-            CameraUpdate camerageUpdate = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
-            mMap.moveCamera(camerageUpdate);
+            left = -87.896567;
         }
         else if (right > -87.874628)
         {
-            LatLng southwest = new LatLng(bottom, left);
-            LatLng northeast = new LatLng(top, -87.874628);
-            LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
-            CameraUpdate camerageUpdate = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
-            mMap.moveCamera(camerageUpdate);
+            right = -87.874628;
         }
+        return new double[]{left, top, right, bottom};
     }
 
-    public void checkYAxis(CameraPosition position, double left, double top, double right, double bottom){
+    public double[] checkYAxis(double left, double top, double right, double bottom){
         if (top > 43.178949){
-            LatLng southwest = new LatLng(bottom, left);
-            LatLng northeast = new LatLng(43.179501, right);
-            LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
-            CameraUpdate camerageUpdate = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
-            mMap.moveCamera(camerageUpdate);
+            top = 43.169292;
         }
         else if (bottom < 43.169292){
-            LatLng southwest = new LatLng(43.169292, left);
-            LatLng northeast = new LatLng(top, right);
-            LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
-            CameraUpdate camerageUpdate = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
-            mMap.moveCamera(camerageUpdate);
+            bottom = 43.169292;
         }
+        return new double[]{left, top, right, bottom};
     }
 
     public void setMarkers(){
