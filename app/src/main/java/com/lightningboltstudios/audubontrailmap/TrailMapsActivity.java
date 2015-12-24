@@ -79,34 +79,12 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
         }
     }
 
-    public double[] checkXAxis(double left, double top, double right, double bottom){
-        if (left < -87.896567) {
-            left = -87.896567;
-        }
-        else if (right > -87.874628)
-        {
-            right = -87.874628;
-        }
-        return new double[]{left, top, right, bottom};
-    }
-
-    public double[] checkYAxis(double left, double top, double right, double bottom){
-        if (top > 43.178949){
-            top = 43.169292;
-        }
-        else if (bottom < 43.169292){
-            bottom = 43.169292;
-        }
-        return new double[]{left, top, right, bottom};
-    }
-    
     public void checkXYAxis(double left, double top, double right, double bottom){
         //X
         if (left < -87.896567) {
             left = -87.896567;
         }
-        else if (right > -87.874628)
-        {
+        else if (right > -87.874628) {
             right = -87.874628;
         }
         //Y
