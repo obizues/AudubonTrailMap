@@ -68,18 +68,17 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
         });
     }
 
-    public void zoomFix(CameraPosition position){
+    public void zoomFix(CameraPosition position) {
         if (position.zoom < DEFAULT_ZOOM) {
             CameraUpdate defaultZoomMove = CameraUpdateFactory.zoomTo(DEFAULT_ZOOM);
             mMap.moveCamera(defaultZoomMove);
-        }
-        else if (position.zoom > 17){
+        } else if (position.zoom > 17) {
             CameraUpdate zoomOut = CameraUpdateFactory.zoomTo(DEFAULT_ZOOM);
             mMap.moveCamera(zoomOut);
         }
     }
 
-    public void checkXYAxis(double left, double top, double right, double bottom){
+    public void checkXYAxis(double left, double top, double right, double bottom) {
         //X
         if (left < -87.896567) {
             left = -87.896567;
@@ -88,19 +87,19 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
             right = -87.874628;
         }
         //Y
-        if (top > 43.178949){
+        if (top > 43.178949) {
             top = 43.169292;
         }
-        else if (bottom < 43.169292){
+        else if (bottom < 43.169292) {
             bottom = 43.169292;
         }
-        
+
         //update camera position
         LatLng southwest = new LatLng(bottom, left);
         LatLng northeast = new LatLng(top, right);
         LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
-        mMap.moveCamera(cameraUpdate);
+        CameraUpdate update = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
+        mMap.moveCamera(update);
     }
 
     public void setMarkers(){
