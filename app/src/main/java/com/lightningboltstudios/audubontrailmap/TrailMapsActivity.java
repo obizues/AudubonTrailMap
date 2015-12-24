@@ -63,19 +63,7 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
                 double bottom = vr.latLngBounds.southwest.latitude;
 
                 zoomFix(position);
-                double[] newBoundaries = checkXAxis(left, top, right, bottom);
-                newBoundaries = checkYAxis(newBoundaries[0], newBoundaries[1],newBoundaries[2],newBoundaries[3]);
-
-                left = newBoundaries[0];
-                top = newBoundaries[1];
-                right = newBoundaries[2];
-                bottom = newBoundaries[3];
-
-                LatLng southwest = new LatLng(bottom, left);
-                LatLng northeast = new LatLng(top, right);
-                LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
-                mMap.moveCamera(cameraUpdate);
+                checkXYAxis(left, top, right, bottom);
             }
         });
     }
@@ -110,6 +98,31 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
             bottom = 43.169292;
         }
         return new double[]{left, top, right, bottom};
+    }
+    
+    public void checkXYAxis(double left, double top, double right, double bottom){
+        //X
+        if (left < -87.896567) {
+            left = -87.896567;
+        }
+        else if (right > -87.874628)
+        {
+            right = -87.874628;
+        }
+        //Y
+        if (top > 43.178949){
+            top = 43.169292;
+        }
+        else if (bottom < 43.169292){
+            bottom = 43.169292;
+        }
+        
+        //update camera position
+        LatLng southwest = new LatLng(bottom, left);
+        LatLng northeast = new LatLng(top, right);
+        LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
+        mMap.moveCamera(cameraUpdate);
     }
 
     public void setMarkers(){
