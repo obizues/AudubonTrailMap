@@ -63,19 +63,19 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
                 double bottom = vr.latLngBounds.southwest.latitude;
 
                 zoomFix(position);
-                double[] newBoundries = checkXAxis(left, top, right, bottom);
-                newBoundries = checkYAxis(newBoundries[0], newBoundries[1],newBoundries[2],newBoundries[3]);
+                double[] newBoundaries = checkXAxis(left, top, right, bottom);
+                newBoundaries = checkYAxis(newBoundaries[0], newBoundaries[1],newBoundaries[2],newBoundaries[3]);
 
-                left = newBoundries[0];
-                top = newBoundries[1];
-                right = newBoundries[2];
-                bottom = newBoundries[3];
+                left = newBoundaries[0];
+                top = newBoundaries[1];
+                right = newBoundaries[2];
+                bottom = newBoundaries[3];
 
                 LatLng southwest = new LatLng(bottom, left);
                 LatLng northeast = new LatLng(top, right);
                 LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
-                CameraUpdate camerageUpdate = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
-                mMap.moveCamera(camerageUpdate);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
+                mMap.moveCamera(cameraUpdate);
             }
         });
     }
