@@ -51,46 +51,9 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
         CameraUpdate cameraZoomUpdate = CameraUpdateFactory.zoomTo(DEFAULT_ZOOM);
         Bundle extras = getIntent().getExtras();
 
-        if (extras != null) {
-            String location = extras.getString("location");
-            assert location != null;
-            if (location.equals("Bird Blind Pond")){
-                initialMapLocation = birdBlindPond;
-            }
-            if (location.equals("Boardwalk Pond")){
-                initialMapLocation = boardwalkPond;
-            }
-            if (location.equals("Farm Equipment")){
-                initialMapLocation = farmEquipment;
-            }
-            if (location.equals("Lake Michigan (North Stair)")){
-                initialMapLocation = lakeMichiganNorthStair;
-            }
-            if (location.equals("Lake Michigan (Main Trail)")){
-                initialMapLocation = lakeMichiganMainTrail;
-            }
-            if (location.equals("Main Building")){
-                initialMapLocation = mainBuilding;
-            }
-            if (location.equals("Mystery Lake")){
-                initialMapLocation = mysteryLake;
-            }
-            if (location.equals("Observation Tower")){
-                initialMapLocation = observationTower;
-            }
-            if (location.equals("Pavilion")){
-                initialMapLocation = pavilion;
-            }
-            if (location.equals("Solitude Marsh")){
-                initialMapLocation = solitudeMarsh;
-            }
-            cameraZoomUpdate = CameraUpdateFactory.zoomTo(16.5f);
-        }
-        else {
-            initialMapLocation = schlitzLocation;
-        }
-        // Add a marker to Schlitz Audubon and move the camera
+        initialMapLocation = setInitialMapLocation(initialMapLocation, extras, schlitzLocation);
 
+        // Add a marker to Schlitz Audubon and move the camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(initialMapLocation));
         mMap.moveCamera(cameraZoomUpdate);
         mMap.getUiSettings().setTiltGesturesEnabled(false);
@@ -126,6 +89,48 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
                 checkXYAxis(left, top, right, bottom, lastGoodVisibleRegion, vr);
             }
         });
+    }
+
+    public LatLng setInitialMapLocation(LatLng initialMapLocation, Bundle extras, LatLng schlitzLocation){
+        if (extras != null) {
+            String location = extras.getString("location");
+            assert location != null;
+            if (location.equals("Bird Blind Pond")){
+                return birdBlindPond;
+            }
+            if (location.equals("Boardwalk Pond")){
+                initialMapLocation = boardwalkPond;
+            }
+            if (location.equals("Farm Equipment")){
+                initialMapLocation = farmEquipment;
+            }
+            if (location.equals("Lake Michigan (North Stair)")){
+                initialMapLocation = lakeMichiganNorthStair;
+            }
+            if (location.equals("Lake Michigan (Main Trail)")){
+                initialMapLocation = lakeMichiganMainTrail;
+            }
+            if (location.equals("Main Building")){
+                initialMapLocation = mainBuilding;
+            }
+            if (location.equals("Mystery Lake")){
+                initialMapLocation = mysteryLake;
+            }
+            if (location.equals("Observation Tower")){
+                initialMapLocation = observationTower;
+            }
+            if (location.equals("Pavilion")){
+                initialMapLocation = pavilion;
+            }
+            if (location.equals("Solitude Marsh")){
+                initialMapLocation = solitudeMarsh;
+            }
+            CameraUpdateFactory.zoomTo(16.5f);
+        }
+        else {
+            initialMapLocation = schlitzLocation;
+        }
+        return initialMapLocation;
     }
 
     public void zoomFix(CameraPosition position) {
