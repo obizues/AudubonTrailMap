@@ -30,6 +30,7 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
     LatLng farmEquipment = new LatLng(43.174139, -87.890424);
     LatLng lakeMichiganNorthStair = new LatLng(43.177314, -87.884221);
     LatLng lakeMichiganMainTrail = new LatLng(43.175525, -87.883239);
+    VisibleRegion lastGoodVisibleRegion = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,26 +115,17 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onCameraChange(CameraPosition position) {
                 VisibleRegion vr = mMap.getProjection().getVisibleRegion();
+                if (lastGoodVisibleRegion == null){
+                    lastGoodVisibleRegion = vr;
+                }
                 double left = vr.latLngBounds.southwest.longitude;
                 double top = vr.latLngBounds.northeast.latitude;
                 double right = vr.latLngBounds.northeast.longitude;
                 double bottom = vr.latLngBounds.southwest.latitude;
-
                 zoomFix(position);
-                //checkXYAxis(left, top, right, bottom);
+                checkXYAxis(left, top, right, bottom, lastGoodVisibleRegion, vr);
             }
         });
-        //
-        //mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
-        //@Override
-        //public void onMyLocationChange(Location location) {
-        //LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-        //mMap.addMarker(new MarkerOptions().position(loc));
-        //if(mMap != null){
-        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, DEFAULT_ZOOM));
-        //}
-        //}
-        //});
     }
 
     public void zoomFix(CameraPosition position) {
@@ -146,28 +138,21 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
         }
     }
 
-    public void checkXYAxis(double left, double top, double right, double bottom) {
-        //X
-        if (left < -87.896567) {
-            left = -87.896567;
-        }
-        else if (right > -87.874628) {
-            right = -87.874628;
-        }
-        //Y
-        if (top > 43.178949) {
-            top = 43.169292;
-        }
-        else if (bottom < 43.169292) {
-            bottom = 43.169292;
-        }
+    public void checkXYAxis(double left, double top, double right, double bottom, VisibleRegion lastGoodVisibleRegion, VisibleRegion vr) {
+        if (left < -87.896567 || right > -87.874628 || top > 43.178949 || bottom < 43.169292)
+        {
+            left = lastGoodVisibleRegion.latLngBounds.southwest.longitude;
+            right = lastGoodVisibleRegion.latLngBounds.northeast.longitude;
+            bottom = lastGoodVisibleRegion.latLngBounds.southwest.latitude;
+            top = lastGoodVisibleRegion.latLngBounds.northeast.latitude;
 
-        //update camera position
-        LatLng southwest = new LatLng(bottom, left);
-        LatLng northeast = new LatLng(top, right);
-        LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
-        CameraUpdate update = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
-        mMap.moveCamera(update);
+            LatLng southwest = new LatLng(bottom, left);
+            LatLng northeast = new LatLng(top, right);
+            LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
+            CameraUpdate update = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
+            mMap.moveCamera(update);
+        }
+        else this.lastGoodVisibleRegion = vr;
     }
 
     public void setMarkers(){
