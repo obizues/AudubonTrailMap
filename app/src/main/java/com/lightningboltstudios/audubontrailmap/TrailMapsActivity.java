@@ -31,6 +31,10 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
     LatLng lakeMichiganNorthStair = new LatLng(43.177314, -87.884221);
     LatLng lakeMichiganMainTrail = new LatLng(43.175525, -87.883239);
     VisibleRegion lastGoodVisibleRegion = null;
+    private double prevTop = 0.0;
+    private double prevBottom = 0.0;
+    private double prevRight = 0.0;
+    private double prevLeft = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +65,6 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.setMyLocationEnabled(true);
 
-
         //Add custom graphic to map for Audubon
         GroundOverlayOptions audubonTrailMap = new GroundOverlayOptions()
                 .image(BitmapDescriptorFactory.fromResource(R.drawable.trailmapimage))
@@ -81,10 +84,10 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
                 if (lastGoodVisibleRegion == null){
                     lastGoodVisibleRegion = vr;
                 }
-                double left = vr.latLngBounds.southwest.longitude;
-                double top = vr.latLngBounds.northeast.latitude;
-                double right = vr.latLngBounds.northeast.longitude;
-                double bottom = vr.latLngBounds.southwest.latitude;
+                double left = prevLeft = vr.latLngBounds.southwest.longitude;
+                double top = prevTop = vr.latLngBounds.northeast.latitude;
+                double right = prevRight = vr.latLngBounds.northeast.longitude;
+                double bottom = prevBottom = vr.latLngBounds.southwest.latitude;
                 zoomFix(position);
                 checkXYAxis(left, top, right, bottom, lastGoodVisibleRegion, vr);
             }
@@ -144,20 +147,29 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
     }
 
     public void checkXYAxis(double left, double top, double right, double bottom, VisibleRegion lastGoodVisibleRegion, VisibleRegion vr) {
-        if (left < -87.896567 || right > -87.874628 || top > 43.178949 || bottom < 43.169292)
-        {
-            left = lastGoodVisibleRegion.latLngBounds.southwest.longitude;
-            right = lastGoodVisibleRegion.latLngBounds.northeast.longitude;
-            bottom = lastGoodVisibleRegion.latLngBounds.southwest.latitude;
-            top = lastGoodVisibleRegion.latLngBounds.northeast.latitude;
-
-            LatLng southwest = new LatLng(bottom, left);
-            LatLng northeast = new LatLng(top, right);
-            LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
-            CameraUpdate update = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
-            mMap.moveCamera(update);
+        if (left < -87.896567) {
+            left = -87.896567;
+            right += left - prevLeft;
         }
-        else this.lastGoodVisibleRegion = vr;
+        else if (right > -87.874628) {
+            right = -87.874628;
+            left += right - prevRight;
+        }
+        //Y
+        if (top > 43.178949) {
+            top = 43.178949;
+            bottom += top - prevTop;
+        }
+        else if (bottom < 43.169292) {
+            bottom = 43.169292;
+            top += bottom - prevBottom;
+        }
+
+        LatLng southwest = new LatLng(bottom, left);
+        LatLng northeast = new LatLng(top, right);
+        LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
+        CameraUpdate update = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
+        mMap.moveCamera(update);
     }
 
     public void setMarkers(){
