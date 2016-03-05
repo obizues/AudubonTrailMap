@@ -10,24 +10,24 @@
         <item>Pavilion</item>
         <item>Mystery Lake</item>
         <item>Boardwalk Pond</item>
-        <item>"Secret Door" to Solutude Marsh</item>
+        <item>Solitude Marsh</item>
         <item>Bird Blind Pond</item>
         <item>Farm Equipment</item>
         <item>Wigwam</item>
-        <item>Lake Michigan (North Trail)</item>
-        <item>Lake Michigan (Paved Trail)</item>
+        <item>Lake Michigan (North Stair)</item>
+        <item>Lake Michigan (Main Trail)</item>
     </string-array>
     <string-array name="move_rating">
-        <item>Location:  7.4/10</item>
-        <item>Location:  5.4/10</item>
-        <item>Location:  4.4/10</item>
-        <item>Location:  3.4/10</item>
-        <item>Location:  2.4/10</item>
-        <item>Location:  1.4/10</item>
-        <item>Location:  2.4/10</item>
-        <item>Location:  1.4/10</item>
-        <item>Location:  0.4/10</item>
-        <item>Location:  6.4/10</item>
-        <item>Location:  6.4/10</item>
+        <item>1 Miles E</item>
+        <item>2 Miles E</item>
+        <item>3 Miles E</item>
+        <item>4 Miles E</item>
+        <item>5 Miles E</item>
+        <item>6 Miles E</item>
+        <item>7 Miles E</item>
+        <item>8 Miles E</item>
+        <item>9 Miles E</item>
+        <item>10 Miles E</item>
+        <item>11 Miles E</item>
     </string-array>
 </resources>

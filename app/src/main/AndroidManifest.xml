@@ -52,11 +52,11 @@
         <activity android:name=".PavilionActivity" />
         <activity android:name=".MysteryLakeActivity" />
         <activity android:name=".BoardwalkPondActivity" />
-        <activity android:name=".SecretDoorToSolitudeMarshActivity" />
+        <activity android:name=".SolitudeMarshActivity" />
         <activity android:name=".BirdBlindPondActivity" />
         <activity android:name=".FarmEquipmentActivity" />
-        <activity android:name=".LakeMichiganNorthTrailActivity" />
-        <activity android:name=".LakeMichiganSouthTrailActivity" />
+        <activity android:name=".LakeMichiganNorthStairActivity" />
+        <activity android:name=".LakeMichiganMainTrailActivity" />
         <activity android:name=".WigwamActivity"></activity>
     </application>
 

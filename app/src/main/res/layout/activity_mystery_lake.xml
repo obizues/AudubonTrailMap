@@ -37,15 +37,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Text about mystery lake..."
+        android:text="This doughnut-shaped water body has characteristics of a lake including annual turnover and depths suitable for fish to survive the entire year. A great example of humans doing something positive to encourage wildlife, Mystery was constructed in 1987 on old farmland with heavy clay soil. A very popular spot for school students and summer campers to find turtles, frogs, small fish and a host of macro-invertebrates Why do we call it “Mystery” Lake? That’s easy – because of the island you can never see all the open water at one time so you never can be sure of knowing everything that is on the Lake – hence “Mystery”."
         android:id="@+id/textView2"
         android:textAlignment="center"
+        android:textSize="9.6dp"
         android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:paddingTop="0dp"
+        android:textIsSelectable="false" />
 
     <Button
         android:layout_width="wrap_content"

@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class ListViewActivity extends ActionBarActivity {
     ListView listView;
@@ -53,7 +52,7 @@ public class ListViewActivity extends ActionBarActivity {
                         break;
                     case 4: myIntent = new Intent(view.getContext(), BoardwalkPondActivity.class);
                         break;
-                    case 5: myIntent = new Intent(view.getContext(), SecretDoorToSolitudeMarshActivity.class);
+                    case 5: myIntent = new Intent(view.getContext(), SolitudeMarshActivity.class);
                         break;
                     case 6: myIntent = new Intent(view.getContext(), BirdBlindPondActivity.class);
                         break;
@@ -61,9 +60,9 @@ public class ListViewActivity extends ActionBarActivity {
                         break;
                     case 8: myIntent = new Intent(view.getContext(), WigwamActivity.class);
                         break;
-                    case 9: myIntent = new Intent(view.getContext(), LakeMichiganNorthTrailActivity.class);
+                    case 9: myIntent = new Intent(view.getContext(), LakeMichiganNorthStairActivity.class);
                         break;
-                    case 10: myIntent = new Intent(view.getContext(), LakeMichiganSouthTrailActivity.class);
+                    case 10: myIntent = new Intent(view.getContext(), LakeMichiganMainTrailActivity.class);
                         break;
                     default: myIntent = new Intent(view.getContext(), ListViewActivity.class);
                 }

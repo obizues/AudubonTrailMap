@@ -5,13 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class LakeMichiganNorthTrailActivity extends AppCompatActivity {
+public class LakeMichiganNorthStairActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("Lake Michigan (North Trail)");
-        setContentView(R.layout.activity_lake_michigan_north_trail);
+        setTitle("Lake Michigan (North Stair)");
+        setContentView(R.layout.activity_lake_michigan_north_stair);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -23,6 +23,7 @@ public class LakeMichiganNorthTrailActivity extends AppCompatActivity {
 
     public void showOnMap(View view) {
         Intent intent = new Intent(this, TrailMapsActivity.class);
+        intent.putExtra("location", getTitle());
         startActivity(intent);
     }
 }

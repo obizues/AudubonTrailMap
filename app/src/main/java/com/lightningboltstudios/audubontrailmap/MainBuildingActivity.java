@@ -24,6 +24,7 @@ public class MainBuildingActivity extends AppCompatActivity {
 
     public void showOnMap(View view) {
         Intent intent = new Intent(this, TrailMapsActivity.class);
+        intent.putExtra("location", getTitle());
         startActivity(intent);
     }
 }

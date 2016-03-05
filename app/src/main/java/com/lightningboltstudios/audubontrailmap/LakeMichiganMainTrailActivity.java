@@ -5,13 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class SecretDoorToSolitudeMarshActivity extends AppCompatActivity {
+public class LakeMichiganMainTrailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("Secret Door To Solitude Marsh");
-        setContentView(R.layout.activity_secret_door_to_solitude_marsh);
+        setTitle("Lake Michigan (Main Trail)");
+        setContentView(R.layout.activity_lake_michigan_main_trail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -23,6 +23,7 @@ public class SecretDoorToSolitudeMarshActivity extends AppCompatActivity {
 
     public void showOnMap(View view) {
         Intent intent = new Intent(this, TrailMapsActivity.class);
+        intent.putExtra("location", getTitle());
         startActivity(intent);
     }
 }

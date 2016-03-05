@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#ead2c3">
+    android:background="#ead2c3"
+    android:clickable="true">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -22,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Secret Door to Solitude Marsh"
+        android:text="Solitude Marsh"
         android:id="@+id/textView"
         android:textAlignment="center"
         android:textStyle="bold"
@@ -37,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="The entrance to this short boardwalk was named the “Secret Door” by our preschoolers. This out-of-the-way spot is perfect for listening to frogs, red-wing blackbirds and watching dragonflies dart about. A dense mat of cattails, the largest on the property, deepens the sense of solitude."
+        android:text="The entrance to this short boardwalk was named the “Secret Door” by our preschoolers. This out-of-the-way spot is perfect for listening to frogs, red-wing blackbirds and watching dragonflies dart about. A dense mat of cattails, the largest on the property, deepens the sense of solitude.  This area is a prime spot to see deer and other animals at early morning and early evening."
         android:id="@+id/textView2"
         android:textAlignment="center"
         android:textSize="12dp"

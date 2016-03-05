@@ -37,16 +37,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Text about the wigwam can go here..."
+        android:text="Wigwams were the main unit of housing for the majority of Midwestern Native American tribes. They are a round domed structure that was made of materials readily available. Here in the upper Midwest, that meant that the frame would typically be of branches culled from ash trees. The covering could be ash, elm, or birch bark. Deer hides have also been used for covering the wigwam. The entrance was always set towards the east as the American Indians could greet the morning sun."
         android:id="@+id/textView2"
         android:textAlignment="center"
-        android:textSize="12dp"
+        android:textSize="11dp"
         android:layout_below="@+id/textView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_above="@+id/button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:paddingTop="0dp"
+        android:autoText="false"
+        android:clickable="false" />
 
     <Button
         android:layout_width="wrap_content"

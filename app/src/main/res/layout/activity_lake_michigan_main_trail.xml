@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Lake Michigan (South Trail)"
+        android:text="Lake Michigan (Main Trail)"
         android:id="@+id/textView"
         android:textAlignment="center"
         android:textStyle="bold"
@@ -36,15 +36,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Text about Lake Michigan (South Trail)..."
+        android:text="This trail offers a direct but steep path down to the lakeshore. Notice the intense land improvements as you make your way: plantings of native white cedar, removal of invasive Dames Rocket and Garlic Mustard and a general attention to increasing species diversity. When you walk out on the open beach area – not for swimming by the way – you’ll feel as if you have been transported to a remote spot in Door County. It’s a breathtaking scene."
         android:id="@+id/textView2"
         android:textAlignment="center"
+        android:textSize="10.5dp"
         android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:paddingTop="0dp" />
 
     <Button
         android:layout_width="wrap_content"

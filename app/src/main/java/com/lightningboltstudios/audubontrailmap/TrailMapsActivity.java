@@ -1,9 +1,7 @@
 package com.lightningboltstudios.audubontrailmap;
-
 import android.content.pm.ActivityInfo;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,11 +19,20 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
 
     private GoogleMap mMap;
     final float DEFAULT_ZOOM = (float) 15.25;
-    Integer cameraUpdateLock;
+
+    LatLng mainBuilding = new LatLng(43.174961, -87.885165);
+    LatLng observationTower = new LatLng(43.173308, -87.884019);
+    LatLng pavilion = new LatLng(43.174203, -87.884298);
+    LatLng mysteryLake = new LatLng(43.173289, -87.886801);
+    LatLng boardwalkPond = new LatLng(43.173308, -87.889794);
+    LatLng solitudeMarsh = new LatLng(43.170981, -87.888717);
+    LatLng birdBlindPond = new LatLng(43.172987, -87.894747);
+    LatLng farmEquipment = new LatLng(43.174139, -87.890424);
+    LatLng lakeMichiganNorthStair = new LatLng(43.177314, -87.884221);
+    LatLng lakeMichiganMainTrail = new LatLng(43.175525, -87.883239);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        cameraUpdateLock = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trail_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -38,17 +45,67 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        // Add a marker to Schlitz Audubon and move the camera
-        LatLng schlitzAudubon = new LatLng(43.174265, -87.886025);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(schlitzAudubon));
+        LatLng initialMapLocation = null;
+        LatLng schlitzLocation = new LatLng(43.174265, -87.886025);
         CameraUpdate cameraZoomUpdate = CameraUpdateFactory.zoomTo(DEFAULT_ZOOM);
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null) {
+            String location = extras.getString("location");
+            assert location != null;
+            if (location.equals("Bird Blind Pond")){
+                initialMapLocation = birdBlindPond;
+            }
+            if (location.equals("Boardwalk Pond")){
+                initialMapLocation = boardwalkPond;
+            }
+            if (location.equals("Farm Equipment")){
+                initialMapLocation = farmEquipment;
+            }
+            if (location.equals("Lake Michigan (North Stair)")){
+                initialMapLocation = lakeMichiganNorthStair;
+            }
+            if (location.equals("Lake Michigan (Main Trail)")){
+                initialMapLocation = lakeMichiganMainTrail;
+            }
+            if (location.equals("Main Building")){
+                initialMapLocation = mainBuilding;
+            }
+            if (location.equals("Mystery Lake")){
+                initialMapLocation = mysteryLake;
+            }
+            if (location.equals("Observation Tower")){
+                initialMapLocation = observationTower;
+            }
+            if (location.equals("Pavilion")){
+                initialMapLocation = pavilion;
+            }
+            if (location.equals("Solitude Marsh")){
+                initialMapLocation = solitudeMarsh;
+            }
+            cameraZoomUpdate = CameraUpdateFactory.zoomTo(16.5f);
+        }
+        else {
+            initialMapLocation = schlitzLocation;
+        }
+        // Add a marker to Schlitz Audubon and move the camera
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(initialMapLocation));
         mMap.moveCamera(cameraZoomUpdate);
         mMap.getUiSettings().setTiltGesturesEnabled(false);
+        mMap.getUiSettings().setRotateGesturesEnabled(false);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
+        mMap.setMyLocationEnabled(true);
+
 
         //Add custom graphic to map for Audubon
         GroundOverlayOptions audubonTrailMap = new GroundOverlayOptions()
                 .image(BitmapDescriptorFactory.fromResource(R.drawable.trailmapimage))
-                .position(schlitzAudubon, 1860f, 1092f);
+                .position(schlitzLocation, 1860f, 1092f);
+        GroundOverlayOptions whiteMapOverlay = new GroundOverlayOptions()
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.whitemapoverlay))
+                .position(schlitzLocation, 5000f, 5000f);
+        mMap.addGroundOverlay(whiteMapOverlay);
         mMap.addGroundOverlay(audubonTrailMap);
 
         setMarkers();
@@ -63,9 +120,20 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
                 double bottom = vr.latLngBounds.southwest.latitude;
 
                 zoomFix(position);
-                checkXYAxis(left, top, right, bottom);
+                //checkXYAxis(left, top, right, bottom);
             }
         });
+        //
+        //mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+        //@Override
+        //public void onMyLocationChange(Location location) {
+        //LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+        //mMap.addMarker(new MarkerOptions().position(loc));
+        //if(mMap != null){
+        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, DEFAULT_ZOOM));
+        //}
+        //}
+        //});
     }
 
     public void zoomFix(CameraPosition position) {
@@ -73,7 +141,7 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
             CameraUpdate defaultZoomMove = CameraUpdateFactory.zoomTo(DEFAULT_ZOOM);
             mMap.moveCamera(defaultZoomMove);
         } else if (position.zoom > 17) {
-            CameraUpdate zoomOut = CameraUpdateFactory.zoomTo(DEFAULT_ZOOM);
+            CameraUpdate zoomOut = CameraUpdateFactory.zoomTo(17);
             mMap.moveCamera(zoomOut);
         }
     }
@@ -103,26 +171,15 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
     }
 
     public void setMarkers(){
-        LatLng mainBuilding = new LatLng(43.174961, -87.885165);
-        LatLng observationTower = new LatLng(43.173308, -87.884019);
-        LatLng pavilion = new LatLng(43.174203, -87.884298);
-        LatLng mysteryLake = new LatLng(43.173289, -87.886801);
-        LatLng boardwalkPond = new LatLng(43.173308, -87.889794);
-        LatLng secretDoorToSolitudeMarsh = new LatLng(43.170981, -87.888717);
-        LatLng birdBlindPond = new LatLng(43.172987, -87.894747);
-        LatLng farmEquipment = new LatLng(43.174139, -87.890424);
-        LatLng lakeMichiganNorthTrail = new LatLng(43.177314, -87.884221);
-        LatLng lakeMichiganSouthTrail = new LatLng(43.175525, -87.883239);
-
         mMap.addMarker(new MarkerOptions().position(mainBuilding).title("Main Building").icon(BitmapDescriptorFactory.fromResource(R.drawable.schlitzmarker)));
         mMap.addMarker(new MarkerOptions().position(observationTower).title("Observation Tower").icon(BitmapDescriptorFactory.fromResource(R.drawable.schlitzmarker)));
         mMap.addMarker(new MarkerOptions().position(pavilion).title("Pavilion").icon(BitmapDescriptorFactory.fromResource(R.drawable.schlitzmarker)));
         mMap.addMarker(new MarkerOptions().position(mysteryLake).title("Mystery Lake").icon(BitmapDescriptorFactory.fromResource(R.drawable.schlitzmarker)));
         mMap.addMarker(new MarkerOptions().position(boardwalkPond).title("Boardwalk Pond").icon(BitmapDescriptorFactory.fromResource(R.drawable.schlitzmarker)));
-        mMap.addMarker(new MarkerOptions().position(secretDoorToSolitudeMarsh).title("Secret Door to Solitude Marsh").icon(BitmapDescriptorFactory.fromResource(R.drawable.schlitzmarker)));
+        mMap.addMarker(new MarkerOptions().position(solitudeMarsh).title("Solitude Marsh").icon(BitmapDescriptorFactory.fromResource(R.drawable.schlitzmarker)));
         mMap.addMarker(new MarkerOptions().position(birdBlindPond).title("Bird Blind Pond").icon(BitmapDescriptorFactory.fromResource(R.drawable.schlitzmarker)));
         mMap.addMarker(new MarkerOptions().position(farmEquipment).title("Farm Equipment").icon(BitmapDescriptorFactory.fromResource(R.drawable.schlitzmarker)));
-        mMap.addMarker(new MarkerOptions().position(lakeMichiganNorthTrail).title("Lake Michigan (North Trail)").icon(BitmapDescriptorFactory.fromResource(R.drawable.schlitzmarker)));
-        mMap.addMarker(new MarkerOptions().position(lakeMichiganSouthTrail).title("Lake Michigan (South Trail)").icon(BitmapDescriptorFactory.fromResource(R.drawable.schlitzmarker)));
+        mMap.addMarker(new MarkerOptions().position(lakeMichiganNorthStair).title("Lake Michigan (North Trail)").icon(BitmapDescriptorFactory.fromResource(R.drawable.schlitzmarker)));
+        mMap.addMarker(new MarkerOptions().position(lakeMichiganMainTrail).title("Lake Michigan (South Trail)").icon(BitmapDescriptorFactory.fromResource(R.drawable.schlitzmarker)));
     }
 }

@@ -37,15 +37,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Text about farm equipment..."
+        android:text="This 185 acre natural area was once working farmland. After the original forests were cleared by European settlers, farming was common throughout the region. The last to farm the land were the Uihleins of Schlitz Brewery renown. They kept draft horses here that at one time would carry beer wagons through the streets of Old Milwaukee. All of the old machines in this clearing were found on the property."
         android:id="@+id/textView2"
         android:textAlignment="center"
+        android:textSize="12dp"
         android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:paddingTop="0dp" />
 
     <Button
         android:layout_width="wrap_content"

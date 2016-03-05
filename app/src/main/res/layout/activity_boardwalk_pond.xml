@@ -37,15 +37,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Text about boardwalk pond..."
+        android:text="This popular spot is an example of forest succession in action. Very slowly, the ash and other trees surrounding this natural pond will reclaim the wetland. Only a few feet deep, it has extremely low oxygen levels so fish cannot survive here during the winter months. Yet having fewer predators around is wonderful news for healthy populations of amphibians such as the blue spotted salamander and green frog. Move carefully on the floating deck and be sure to look for turtles basking and frogs hiding in the duckweed."
         android:id="@+id/textView2"
         android:textAlignment="center"
+        android:textSize="10dp"
         android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:paddingTop="0dp" />
 
     <Button
         android:layout_width="wrap_content"

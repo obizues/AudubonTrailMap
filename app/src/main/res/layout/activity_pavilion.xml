@@ -40,7 +40,7 @@
         android:text="This beautiful structure is a highlight for summer concerts, autumn weddings and a wonderful place to relax. Did you know it covers the footprint of our original building? Designed by the Kubala Washatko Architects of Cedarburg, it is the focal point for summer camps, picnickers and special events throughout the year."
         android:id="@+id/textView2"
         android:textAlignment="center"
-        android:textSize="12dp"
+        android:textSize="13dp"
         android:layout_below="@+id/textView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
