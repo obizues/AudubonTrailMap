@@ -2,6 +2,7 @@ package com.lightningboltstudios.audubontrailmap;
 import android.content.pm.ActivityInfo;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,11 +31,8 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
     LatLng farmEquipment = new LatLng(43.174139, -87.890424);
     LatLng lakeMichiganNorthStair = new LatLng(43.177314, -87.884221);
     LatLng lakeMichiganMainTrail = new LatLng(43.175525, -87.883239);
-    VisibleRegion lastGoodVisibleRegion = null;
-    private double prevTop = 0.0;
-    private double prevBottom = 0.0;
-    private double prevRight = 0.0;
-    private double prevLeft = 0.0;
+    private double viewportHeight = 0.0;
+    private double viewportWidth = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +48,17 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng initialMapLocation = null;
+        LatLng initialMapLocation;
         LatLng schlitzLocation = new LatLng(43.174265, -87.886025);
         CameraUpdate cameraZoomUpdate = CameraUpdateFactory.zoomTo(DEFAULT_ZOOM);
         Bundle extras = getIntent().getExtras();
 
-        initialMapLocation = setInitialMapLocation(initialMapLocation, extras, schlitzLocation);
+        initialMapLocation = setInitialMapLocation(extras, schlitzLocation);
 
         // Add a marker to Schlitz Audubon and move the camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(initialMapLocation));
         mMap.moveCamera(cameraZoomUpdate);
+        updateViewport();
         mMap.getUiSettings().setTiltGesturesEnabled(false);
         mMap.getUiSettings().setRotateGesturesEnabled(false);
         mMap.getUiSettings().setMapToolbarEnabled(false);
@@ -81,20 +80,19 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onCameraChange(CameraPosition position) {
                 VisibleRegion vr = mMap.getProjection().getVisibleRegion();
-                if (lastGoodVisibleRegion == null){
-                    lastGoodVisibleRegion = vr;
-                }
-                double left = prevLeft = vr.latLngBounds.southwest.longitude;
-                double top = prevTop = vr.latLngBounds.northeast.latitude;
-                double right = prevRight = vr.latLngBounds.northeast.longitude;
-                double bottom = prevBottom = vr.latLngBounds.southwest.latitude;
+
+                double left = vr.latLngBounds.southwest.longitude;
+                double top  = vr.latLngBounds.northeast.latitude;
+                double right = vr.latLngBounds.northeast.longitude;
+                double bottom = vr.latLngBounds.southwest.latitude;
                 zoomFix(position);
-                checkXYAxis(left, top, right, bottom, lastGoodVisibleRegion, vr);
+                checkXYAxis(left, top, right, bottom);
             }
         });
     }
 
-    public LatLng setInitialMapLocation(LatLng initialMapLocation, Bundle extras, LatLng schlitzLocation){
+    public LatLng setInitialMapLocation(Bundle extras, LatLng schlitzLocation){
+        LatLng initialMapLocation = null;
         if (extras != null) {
             String location = extras.getString("location");
             assert location != null;
@@ -144,32 +142,41 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
             CameraUpdate zoomOut = CameraUpdateFactory.zoomTo(17);
             mMap.moveCamera(zoomOut);
         }
+        updateViewport();
     }
 
-    public void checkXYAxis(double left, double top, double right, double bottom, VisibleRegion lastGoodVisibleRegion, VisibleRegion vr) {
+    public void checkXYAxis(double left, double top, double right, double bottom) {
+        boolean change = false;
+
         if (left < -87.896567) {
             left = -87.896567;
-            right += left - prevLeft;
+            right = left + viewportWidth;
+            change = true;
         }
         else if (right > -87.874628) {
             right = -87.874628;
-            left += right - prevRight;
+            left = right - viewportWidth;
+            change = true;
         }
         //Y
         if (top > 43.178949) {
             top = 43.178949;
-            bottom += top - prevTop;
+            bottom = top - viewportHeight;
+            change = true;
         }
         else if (bottom < 43.169292) {
             bottom = 43.169292;
-            top += bottom - prevBottom;
+            top = bottom + viewportHeight;
+            change = true;
         }
-
-        LatLng southwest = new LatLng(bottom, left);
-        LatLng northeast = new LatLng(top, right);
-        LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
-        CameraUpdate update = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
-        mMap.moveCamera(update);
+        if (change) {
+            LatLng southwest = new LatLng(bottom, left);
+            LatLng northeast = new LatLng(top, right);
+            LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
+            CameraUpdate update = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
+            mMap.moveCamera(update);
+            updateViewport();
+        }
     }
 
     public void setMarkers(){
@@ -183,5 +190,14 @@ public class TrailMapsActivity extends FragmentActivity implements OnMapReadyCal
         mMap.addMarker(new MarkerOptions().position(farmEquipment).title("Farm Equipment").icon(BitmapDescriptorFactory.fromResource(R.drawable.schlitzmarker)));
         mMap.addMarker(new MarkerOptions().position(lakeMichiganNorthStair).title("Lake Michigan (North Trail)").icon(BitmapDescriptorFactory.fromResource(R.drawable.schlitzmarker)));
         mMap.addMarker(new MarkerOptions().position(lakeMichiganMainTrail).title("Lake Michigan (South Trail)").icon(BitmapDescriptorFactory.fromResource(R.drawable.schlitzmarker)));
+    }
+
+    private void updateViewport() {
+        LatLngBounds initialBounds = mMap.getProjection().getVisibleRegion().latLngBounds;
+        viewportWidth = Math.abs(initialBounds.northeast.longitude
+                - initialBounds.southwest.longitude);
+
+        viewportHeight = Math.abs(initialBounds.northeast.latitude
+                - initialBounds.southwest.latitude);
     }
 }
